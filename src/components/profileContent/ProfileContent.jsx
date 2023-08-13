@@ -18,6 +18,7 @@ import apiAxios from "../../utils/apiAxios";
 import { toast } from "react-toastify";
 import Loader from "../loader/Loader";
 import Address from "../address/Address";
+import { getOrdersUser } from "../../redux/actions/order";
 
 const ProfileContent = ({ active, setActive }) => {
   const dispatch = useDispatch();
@@ -204,18 +205,14 @@ const ProfileContent = ({ active, setActive }) => {
 };
 
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "3784wr76346298dhs23",
-      orderItems: [
-        {
-          name: "Iphone 14 pro max",
-        },
-      ],
-      totalPrice: 2045,
-      orderStatus: "processing",
-    },
-  ];
+  const {userInfo} = useSelector(state => state.user)
+  const {ordersUser} = useSelector(state => state.order)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getOrdersUser(userInfo._id, dispatch)
+    console.log(ordersUser);
+  }, [ ])
 
   const columns = [
     {
@@ -259,7 +256,7 @@ const AllOrders = () => {
       renderCell: (params) => {
         return (
           <Link
-            to={`order/${params.id}`}
+            to={`/user/order/${params.id}`}
             className="py-[3px] px-[15px] text-white bg-black rounded"
           >
             <BsArrowRight size={20} />
@@ -271,12 +268,12 @@ const AllOrders = () => {
 
   const rows = [];
 
-  orders &&
-    orders.forEach((item) => {
+  ordersUser &&
+  ordersUser.forEach((item) => {
       rows.push({
         id: item._id,
-        status: item.orderStatus,
-        itemsQty: item.orderItems.length,
+        status: item.status,
+        itemsQty: item.cart.length,
         total: item.totalPrice,
       });
     });

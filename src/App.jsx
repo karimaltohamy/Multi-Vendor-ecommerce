@@ -41,6 +41,10 @@ const DashboardCoupons = React.lazy(() =>
 const CheckoutPage = React.lazy(() =>
   import("./pages/checkoutPage/CheckoutPage")
 );
+const DashboardOrders = React.lazy(() => import("./pages/shop/dashboardOrders/DashboardOrders")) ;
+const  SuccessfullPage = React.lazy(() => import("./pages/successfulPage/SuccessfullPage")) ;
+const  OrderDetails = React.lazy(() => import("./pages/orderDetails/OrderDetails")) ;
+const DashboardOrderDetails = React.lazy(() => import("./pages/shop/dashboardOrderDetails/DashboardOrderDetails")) ;
 import { useDispatch, useSelector } from "react-redux";
 import { Fragment, useEffect } from "react";
 import { getAllEvents } from "./redux/actions/events";
@@ -51,7 +55,7 @@ import apiAxios from "./utils/apiAxios";
 const PaymentPage = React.lazy(() => import("./pages/paymentPage/PaymentPage"));
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-const  SuccessfullPage = React.lazy(() => import("./pages/successfulPage/SuccessfullPage")) ;
+
 
 const ProdectedRoute = ({ children }) => {
   const { userInfo } = useSelector((state) => state.user);
@@ -207,6 +211,16 @@ function App() {
             </Suspense>
           }
         />
+         <Route
+          path="/user/order/:id"
+          element={
+            <Suspense fallback={<Loader />}>
+              <ProdectedRoute>
+                <OrderDetails />
+              </ProdectedRoute>
+            </Suspense>
+          }
+        />
 
         {/* shop routes */}
         <Route
@@ -241,6 +255,26 @@ function App() {
             <Suspense fallback={<Loader />}>
               <ProdectedShopRoute>
                 <ShopDashboard />
+              </ProdectedShopRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path={`/dashboard-orders`}
+          element={
+            <Suspense fallback={<Loader />}>
+              <ProdectedShopRoute>
+                <DashboardOrders />
+              </ProdectedShopRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path={`/shop/order/:id`}
+          element={
+            <Suspense fallback={<Loader />}>
+              <ProdectedShopRoute>
+                <DashboardOrderDetails/>
               </ProdectedShopRoute>
             </Suspense>
           }
