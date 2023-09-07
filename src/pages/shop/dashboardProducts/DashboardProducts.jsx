@@ -48,12 +48,11 @@ const DashboardProducts = () => {
       width: 90,
       flex: 0.6,
       renderCell: (params) => {
-        const d = params.row.name;
-        const productName = d.replace(/\s+/g, "-");
+        const id = params.row.id;
 
         return (
           <div className="flex items-center gap-3">
-            <Link to={`/products/${productName}`}>
+            <Link to={`/products/${id}`}>
               <GrView size={20} />
             </Link>
             <button onClick={() => handleDelete(params.row.id)}>
