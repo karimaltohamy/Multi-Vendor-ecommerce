@@ -80,11 +80,12 @@ const PaymentPage = () => {
       type: "Paypal",
     };
 
-    const { data } = await apiAxios.post("/orders/create-order", order, {
+    await apiAxios.post("/orders/create-order", order, {
       headers: {
         "Content-Type": "application/json",
       },
     });
+    
     navigate("/successfull");
     toast.success("order successfull");
     localStorage.setItem("orderData", JSON.stringify([]));
@@ -124,7 +125,7 @@ const PaymentPage = () => {
           };
         }
 
-        const { data } = await apiAxios.post("/orders/create-order", order, {
+        await apiAxios.post("/orders/create-order", order, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -147,7 +148,7 @@ const PaymentPage = () => {
       type: "cash"
     }
 
-    const { data } = await apiAxios.post("/orders/create-order", order, {
+    await apiAxios.post("/orders/create-order", order, {
       headers: {
         "Content-Type": "application/json",
       },
